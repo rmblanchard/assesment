@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <title>
+        PHP Assesment - Andre - Test 1 (MongoDB)
+    </title>
+</head>
 
 <body>
 
@@ -26,6 +31,20 @@ PASS:
 
 <?php
 echo "Andre Test 1";
+
+
+
+   // connect to mongodb
+   $m = new MongoClient();
+	
+   echo "Connection to database successfully";
+   // select a database
+   $db = $m->mydb;
+	
+   echo "Database mydb selected";
+
+
+   
 
 phpinfo();
 ?>
