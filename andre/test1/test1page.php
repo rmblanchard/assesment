@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="./vendor/twbs/bootstrap//favicon.ico">
 
-    <title>PHP Assesment Index Template.</title>
+    <title>PHP Assesment Test 1 (MongoDB and Form)</title>
 
     <!-- Bootstrap core CSS -->
     <link href="./vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -27,9 +27,13 @@
 
 ?>
 
+<!--
 //
 // MAIN CONTENT SECTION
 //
+-->
+
+
 <main role="main" class="container">
 
 <div class="starter-template">
@@ -45,5 +49,7 @@
     require 'footer.php';
     
 ?>
-  </body>
+
+
+</body>
 </html>
