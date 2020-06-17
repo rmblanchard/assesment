@@ -30,10 +30,24 @@ PASS:
 
 
 <?php
+
+// requires imports
+
+// This path should point to Composer's autoloader
+require 'vendor/autoload.php';
+
+
+
 echo "Andre Test 1";
 
+$client = new MongoDB\Client("mongodb://localhost:27017");
+$collection = $client->demo->beers;
 
+$result = $collection->insertOne( [ 'name' => 'Hinterland', 'brewery' => 'BrewDog' ] );
 
+echo "Inserted with Object ID '{$result->getInsertedId()}'";
+
+/*
    // connect to mongodb
    $m = new MongoClient();
 	
@@ -43,8 +57,8 @@ echo "Andre Test 1";
 	
    echo "Database mydb selected";
 
+*/
 
-   
 
 phpinfo();
 ?>
