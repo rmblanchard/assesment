@@ -14,7 +14,7 @@
             <a class="nav-link" href="test1page.php">Test 1 - MongoDB and Input Form</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="#">Test 2</a>
+            <a class="nav-link" href="test2page.php">Test 2 - SQLLite, Arrays and Files</a>
           </li>
           <li class="nav-item">
                           <a class="nav-link" href="#">Test 3</a>
