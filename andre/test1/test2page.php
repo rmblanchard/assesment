@@ -84,6 +84,9 @@
     $outputFolder = "output";
     $outputFileName = "nameList.csv";
 
+    $fullOutputCSV = $outputFolder . "/" . $outputFileName;
+
+
 
     require 'navbar.php';
 
@@ -204,6 +207,25 @@
         } //for
 
         var_dump($data);
+
+
+        //write to csv file
+
+        //header('Content-Type: text/csv');
+        //header('Content-Disposition: attachment; filename="output/sample.csv"');
+
+        $fp = fopen($fullOutputCSV, 'w');
+
+        $strLine = implode(", ", $data);
+
+        println($strLine);
+
+        fwrite($fp, implode(", ", $data));
+        //foreach ( $data as $line ) {
+            //$val = explode(",", $line);
+        //    fputcsv($fp, $line);
+        //}
+        fclose($fp);
         
 
 
