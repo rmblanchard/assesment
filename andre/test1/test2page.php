@@ -27,6 +27,12 @@
         echo "<p>{$data}</p>";
     }
 
+    function createNameData($paramNumber, $data){
+        //Create array of data for the CSV file, $paramNumber is the number of rows to create
+
+
+    }
+
 
     //variables
     $vNameArray = array(
@@ -75,6 +81,10 @@
         "Tiekie" 
     ) ;
 
+    $outputFolder = "output";
+    $outputFileName = "nameList.csv";
+
+
     require 'navbar.php';
 
     require 'header.php';
@@ -110,32 +120,91 @@
         println($vNameArray[0]);
         println($vNameArray[19]);
 
-        $vAge = mt_rand(1,100);
+ 
 
-        $vMonth = mt_rand(1,12);
+        //create $data array to hold generated person info
 
-        $vYear = date('Y') - $vAge;
-        println($vYear);
 
-        $vLongMonths = array(1,3,5,7,8,10,12);
+        $rowIndex = 0;
+        $maxRows = 10;
 
-        if (in_array($vMonth, $vLongMonths)) {
-            $vDay = mt_rand(1,31);
-        } else {
-            if ($vMonth == 2){
-                $vDay = mt_rand(1,28);
+        $data = [];
+        $data["0000000000000"] = [
+                    [
+                        "Id" => 0,
+                        "FirstName" => "FirstName",
+                        "Surname" => "Surname",
+                        "Initials" => "Initials",
+                        "Age" => "Age",
+                        "DateOfBirth" => "DateOfBirth"
+                    ]
+            ];
+
+        //
+        for ($i = 1 ; $i <= $maxRows; $i++) {
+
+            println("RowIndex : {$i}");
+
+            $vAge = mt_rand(1,100);
+
+            $vMonth = mt_rand(1,12);
+    
+            $vYear = date('Y') - $vAge;
+            //println($vYear);
+    
+            $vLongMonths = array(1,3,5,7,8,10,12);
+    
+            if (in_array($vMonth, $vLongMonths)) {
+                $vDay = mt_rand(1,31);
+            } else {
+                if ($vMonth == 2){
+                    $vDay = mt_rand(1,28);
+                }
+                else{
+                    $vDay = mt_rand(1,30);
+                }
             }
-            else{
-                $vDay = mt_rand(1,30);
-            }
-        }
+    
+            //println($vDay);
+    
+            $vDateOfBirth = mktime(0, 0, 0, $vDay, $vMonth, $vYear);
+    
+            //println($vMonth);
+            //println($vYear);
+            //println($vAge);
+            //println(date("Y-m-d h:i:sa", $vDateOfBirth));
+    
+            $vFName = $vNameArray[mt_rand(0,19)];
+            $vSName = $vSurnameArray[mt_rand(0,19)];
+            $vInitial = $vFName[0];
+    
+    
+    
+            // Provides: Hll Wrld f PHP
+            $specChar = array(" ", "-", "_", "/");
+            $arrayKey = str_replace($specChar, "", "{$vFName}{$vSName}{$vInitial}{$vAge}{$vDateOfBirth}");
 
-        println($vDay);
+            if (array_key_exists($arrayKey, $data)) {
+                println ("Data Key Exists already : {$arrayKey} ***");
+            } else {
+    
+            //print($arrayKey);
+                $data[$arrayKey] = [
+                    [
+                        "Id" => $i,
+                        "FirstName" => $vFName,
+                        "Surname" => $vSName,
+                        "Initials" => $vInitial,
+                        "Age" => $vAge,
+                        "DateOfBirth" => $vDateOfBirth
+                    ]
+                ];
+            } //else
 
-        println($vMonth);
-        println($vYear);
-        println($vAge);
-        println($vDay);
+        } //for
+
+        var_dump($data);
+        
 
 
 ?>
