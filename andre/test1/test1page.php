@@ -111,7 +111,7 @@
   <div class="form-group">
     <label for="txtDateOfBirth">Date of Birth:</label>
     <input type="text" class="form-control" id="txtDateOfBirth" name="txtDateOfBirth" aria-describedby="DateOfBirthHelp" placeholder="Please enter a Date of Birth [yyyy/mm/dd].">
-    <small id="DateOfBirthHelp" class="form-text text-muted">Please enter a Date of Birth [yyyy/mm/dd].</small>
+    <small id="DateOfBirthHelp" class="form-text text-muted">Please enter a Date of Birth [dd/mm/yyyy].</small>
   </div>
 
   <button type="submit" name="submit" class="btn btn-primary" value="Submit" >Submit</button>
