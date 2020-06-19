@@ -109,7 +109,7 @@
 <form action='addPerson.php' method="post">
   <div class="form-group">
     <label for="txtFirstName">First Name:</label>
-    <input type="text" class="form-control" id="txtFirstName" name="txtFirstName" aria-describedby="fnameHelp" placeholder="Enter First Name">
+    <input  type="text" class="form-control" id="txtFirstName" name="txtFirstName" aria-describedby="fnameHelp" placeholder="Enter First Name" >
     <small id="fnameHelp" class="form-text text-muted">Please enter a first name.</small>
   </div>
 
@@ -131,8 +131,8 @@
     <small id="DateOfBirthHelp" class="form-text text-muted">Please enter a Date of Birth [yyyy/mm/dd].</small>
   </div>
 
-  <button type="submit" class="btn btn-primary">Submit</button>
-  <button type="cancel" class="btn btn-secondary">Cancel</button>
+  <button type="submit" name="submit" class="btn btn-primary" value="Submit" />
+  <button type="cancel" name="cancel" class="btn btn-secondary" value="Cancel" />
 
 </form>
 </div>

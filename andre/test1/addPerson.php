@@ -55,8 +55,14 @@
 
     $collection = $client->$dbdatabase->persons;
 
-    phpinfo();
-
+    if (!isset($_POST['submit'])) {
+      echo " No valid Post ";
+    } else {
+      echo "FIRSTNAME : " . $_POST['txtFirstName'] . "<BR>";
+      echo "SurName : " . $_POST['txtLastName'] . "<BR>";
+      echo "ID NUMBER : " . $_POST['txtIDNumber'] . "<BR>";
+      echo "Date Of Birth : " . $_POST['txtDateOfBirth'] . "<BR>";
+    }
 
     
     $result = $collection->insertOne( [ 'Name' => $_POST["txtFirstName"], 
@@ -67,6 +73,7 @@
 
     echo "Inserted with Object ID '{$result->getInsertedId()}'";
 
+    phpinfo();
 
 
 
