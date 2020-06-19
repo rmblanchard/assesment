@@ -21,9 +21,68 @@
 
 <?php
 
+
+    //functions
+    function println($data) {
+        echo "<p>{$data}</p>";
+    }
+
+
+    //variables
+    $vNameArray = array(
+        "Adrien",
+        "Belinda",
+        "Cathy",
+        "Debbie",
+        "Edgar",
+        "Frank",
+        "Gordon",
+        "Harry",
+        "Ivana",
+        "Julien",
+        "Kayla",
+        "Leigh",
+        "Mich",
+        "Neil",
+        "Olivia",
+        "Pat",
+        "Quinton",
+        "Robert",
+        "Steve",
+        "Tim" 
+    ) ;
+
+    $vSurnameArray = array(
+        "Ackerman",
+        "Beethoven",
+        "Cronje",
+        "De Wet",
+        "Enkelburt",
+        "Finch",
+        "Gecko",
+        "Haasbriek",
+        "Ibis",
+        "Jobert",
+        "Koekemoer",
+        "Le Roux",
+        "Moude",
+        "Nicols",
+        "Olivier",
+        "Pienaar",
+        "Quebek",
+        "Roelofse",
+        "Stein",
+        "Tiekie" 
+    ) ;
+
     require 'navbar.php';
 
     require 'header.php';
+
+
+
+
+
 
 ?>
 
@@ -40,6 +99,48 @@
                     "2","Tyron James", "Hall", "TJ", "32", "03/06/1980"; 
                     After this you will import the file into a SQLite database and output a count of all the records imported. 
 </p>
+</div>
+
+
+<div>
+
+<?php
+        var_dump($vSurnameArray);
+
+        println($vNameArray[0]);
+        println($vNameArray[19]);
+
+        $vAge = mt_rand(1,100);
+
+        $vMonth = mt_rand(1,12);
+
+        $vYear = date('Y') - $vAge;
+        println($vYear);
+
+        $vLongMonths = array(1,3,5,7,8,10,12);
+
+        if (in_array($vMonth, $vLongMonths)) {
+            $vDay = mt_rand(1,31);
+        } else {
+            if ($vMonth == 2){
+                $vDay = mt_rand(1,28);
+            }
+            else{
+                $vDay = mt_rand(1,30);
+            }
+        }
+
+        println($vDay);
+
+        println($vMonth);
+        println($vYear);
+        println($vAge);
+        println($vDay);
+
+
+?>
+
+
 </div>
 
 </main><!-- /.container -->
