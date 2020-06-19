@@ -71,23 +71,6 @@
 
     //var_dump($collection);
 
-    $idxCount = 0;
-
-    //echo "Count : " . count($collection->listIndexes());
-
-
-    foreach ($collection->listIndexes() as $index) {
-        $idxCount = $idxCount + 1;
-    }
-
-    //echo "Index Count : {$idxCount}";
-
-    if ($idxCount < 2) {
-      //create unique index for ID number if it does not exist
-      $indexName = $collection->createIndex(['IDNumber' => 1], ['unique' => 1]);
-      echo "Unique Index Created for ID Number : {$indexName}. <br>";    
-    }
-
 
 
 
@@ -131,8 +114,8 @@
     <small id="DateOfBirthHelp" class="form-text text-muted">Please enter a Date of Birth [yyyy/mm/dd].</small>
   </div>
 
-  <button type="submit" name="submit" class="btn btn-primary" value="Submit" />
-  <button type="cancel" name="cancel" class="btn btn-secondary" value="Cancel" />
+  <button type="submit" name="submit" class="btn btn-primary" value="Submit" >Submit</button>
+  <button type="cancel" name="cancel" class="btn btn-secondary" value="Cancel" >Cancel</button>
 
 </form>
 </div>
