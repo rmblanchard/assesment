@@ -23,7 +23,7 @@
 
 
     function test_input($data) {
-      echo "test input : ({$data})";
+      //echo "test input : ({$data})";
       $data = trim($data);
       $data = stripslashes($data);
       $data = htmlspecialchars($data);
@@ -31,8 +31,9 @@
     }
 
     function show_error($errMesg) {
-      echo "<H3>ERROR</h3>";
-      echo "<p>{$errMesg}</p><p>Use the back button to go back to the previous page.</p><p><button type='button' class='btn btn-primary'>Ok</button></p>";
+      echo "<H3>ERROR:</h3>";
+      echo "<p>{$errMesg}</p><p>Use the back button to go back to the previous page.</p>";
+      echo "<p><INPUT TYPE='button' VALUE='Back' onClick='history.go(-1);'></p>";
     }
 
     
@@ -40,8 +41,8 @@
 	function Validate($idNumber) {
 		$correct = true;
 		if (strlen($idNumber) !== 13 || !is_numeric($idNumber) ) {
-			echo "ID number does not appear to be authentic - input not a valid number";
-			$correct = false; die();
+			show_error( "ID number does not appear to be authentic - input not a valid number");
+			$correct = false; //die();
 		}
 
 		$year = substr($idNumber, 0,2);
@@ -57,7 +58,7 @@
 		$fullDate = $id_date. "-" . $id_month. "-" . $id_year;
 		
 		if (!$id_year == substr($idNumber, 0,2) && $id_month == substr($idNumber, 2,2) && $id_date == substr($idNumber, 4,2)) {
-			echo 'ID number does not appear to be authentic - date part not valid'; 
+			show_error( 'ID number does not appear to be authentic - date part not valid');
 			$correct = false;
 		}
 		$genderCode = substr($idNumber, 6,4);
@@ -78,15 +79,18 @@
 	    $total = ($total * 9) % 10;
 
 	    if ($total % 10 != 0) {
-	        echo 'ID number does not appear to be authentic - check digit is not valid';
+	        show_error( 'ID number does not appear to be authentic - check digit is not valid');
 		    $correct = false;
 	    }
 
         if ($correct){
-            echo nl2br( "\nSouth African ID Number:   ". $idNumber .
-                '  Birth Date:   ' . $fullDate.
-                '  Gender:  ' . $gender .
-                '  SA Citizen:  ' . $citzenship);
+            echo nl2br(
+                '<p><h3>ID NUMBER - Person Info: </h3>' . 
+
+                '<p>South African ID Number:   ' . $idNumber . '</p>' .
+                '<p>Birth Date:   ' . $fullDate.  '</p>' . 
+                '<p>Gender:  ' . $gender .  '</p>' . 
+                '<p>SA Citizen:  ' . $citzenship) . '</p> <hr>' ;
         }
 
       return ($correct);
@@ -108,6 +112,14 @@
     return $fullDate;
 
   }
+
+  function isDate($string) {
+    $matches = array();
+    $pattern = '/^([0-9]{1,2})\\/([0-9]{1,2})\\/([0-9]{4})$/';
+    if (!preg_match($pattern, $string, $matches)) return false;
+    if (!checkdate($matches[2], $matches[1], $matches[3])) return false;
+    return true;
+}
 
     
     require 'navbar.php';
@@ -151,7 +163,7 @@
     $collection = $client->$dbdatabase->persons;
 
     if (!isset($_POST['submit'])) {
-      echo " No valid Post ";
+      show_error(" No valid Post ");
       $hasError = true;
     } else {
       $vFName = test_input($_POST['txtFirstName']);
@@ -192,6 +204,11 @@
         $hasError = true;
     }
 
+    if (!isDate($vDOB)){
+      show_error("Invalid Date of Birth");
+      $hasError = true;
+    }
+
 
 
 
@@ -205,47 +222,57 @@
     
     //echo "Has Error : {$hasError}";
 
+    $vDBmsg = "";
+
     if (!$hasError) {
 
-      $result = $collection->insertOne( [ 'Name' => $vFName, 
-                                        'Surname' => $vSName,
-                                        'IDNumber' => $vIDNo,
-                                        'DateOfBirth' => $vDOB ]);
+      try {
 
-      //Adding index on ID Number incase a new database has been created for the first time
-      $idxCount = 0;
-      //echo "Count : " . count($collection->listIndexes());
-    
-      foreach ($collection->listIndexes() as $index) { //Checking if more than one index exists in the case of a new collection being created
-          $idxCount = $idxCount + 1;
-      }
-  
-      //echo "Index Count : {$idxCount}";
-  
-      if ($idxCount < 2) {
-        //create unique index for ID number if it does not exist
-        $indexName = $collection->createIndex(['IDNumber' => 1], ['unique' => 1]);
-        echo "Unique Index Created for ID Number : {$indexName}. <br>";    
-      }
-      //                            
-                                    
+        $result = $collection->insertOne( [ 'Name' => $vFName, 
+                                          'Surname' => $vSName,
+                                          'IDNumber' => $vIDNo,
+                                          'DateOfBirth' => $vDOB ]);
 
-      echo "<p>Inserted with Object ID '{$result->getInsertedId()}'</p>";
-      echo "<p>{$vFName}</p>";
-      echo "<p>{$vSName}</p>";
-      echo "<p>{$vIDNo}</p>";
-      echo "<p>{$vDOB}</p>";
+        //Adding index on ID Number incase a new database has been created for the first time
+        $idxCount = 0;
+        //echo "Count : " . count($collection->listIndexes());
       
+        foreach ($collection->listIndexes() as $index) { //Checking if more than one index exists in the case of a new collection being created
+            $idxCount = $idxCount + 1;
+        }
+    
+        //echo "Index Count : {$idxCount}";
+    
+        if ($idxCount < 2) {
+          //create unique index for ID number if it does not exist
+          $indexName = $collection->createIndex(['IDNumber' => 1], ['unique' => 1]);
+          echo "<i>Unique Index Created for ID Number : {$indexName}. </i><br>";    
+        }
+        //
 
-    } else {
+                                      
 
-      show_error("Has Error - nothing saved");
+        echo "  <h3>Inserted:</h3><p>Object ID '{$result->getInsertedId()}'</p>";
+        echo "<p>{$vFName}</p>";
+        echo "<p>{$vSName}</p>";
+        echo "<p>{$vIDNo}</p>";
+        echo "<p>{$vDOB}</p>";
 
+        echo "<p><a href='test1page.php'>Add</a> a new person to the collection.</p>";
+
+      } catch (exception $e) {
+
+        $vDBmsg = $e->getMessage();
+        $hasError = true;
+        //echo "DB ERROR : {$vDBmsg}";
+
+      }      
+    } //hasError
+
+    if ($hasError){
+
+      show_error($vDBmsg);
     }
-
-
-
-
 
 
 ?>
