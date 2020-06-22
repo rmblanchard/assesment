@@ -192,7 +192,7 @@
             } else {
     
             //print($arrayKey);
-                $data[$arrayKey] = [
+                $data[$arrayKey] = 
                     [
                         "Id" => $i,
                         "FirstName" => $vFName,
@@ -201,7 +201,7 @@
                         "Age" => $vAge,
                         "DateOfBirth" => $vDateOfBirth
                     ]
-                ];
+                ;
             } //else
 
         } //for
@@ -214,17 +214,61 @@
         //header('Content-Type: text/csv');
         //header('Content-Disposition: attachment; filename="output/sample.csv"');
 
+
+        //Craete output file (overwrite if file exists)
         $fp = fopen($fullOutputCSV, 'w');
 
-        $strLine = implode(", ", $data);
+        $strLine = implode(", ", array_values($data));
 
-        println($strLine);
+        $dKeys = array_keys($data);
 
-        fwrite($fp, implode(", ", $data));
-        //foreach ( $data as $line ) {
-            //$val = explode(",", $line);
+        echo "<PRE>";
+        print_r($data); 
+
+        foreach ($data as $dkey=>$dvalue){
+            print_r($dvalue);
+            //exit;
+
+            println("Array Key : " . $dkey);
+            $v = array_values($dvalue);
+
+            println("Array Value : " . array_values($v));
+            println("======================");
+
+        }
+
+        foreach ($dKeys as $dataKey){
+            println ("Data Key : " . $dataKey);
+            //println ("Data Value for Key :" . $data['$dataKey']);
+            $text = implode(", ", $data[$dataKey]);
+            println("Text : " . $text);
+            println(implode(", ", array_values($data[$dataKey])));
+            println ("***************");
+        }
+
+        println("strLine : " . $strLine);
+
+        //fwrite($fp, implode(", ", array_keys($data)));
+        foreach ( $data as $line ) {
+                $line_values = array_values($line);
+                println($line_values . "** imploded : **" . explode($line_values));
+
+
+            $keys = array_keys($line);
+            println ("array_keys : " . $keys);
+            println ("array_values : " . array_values($line));
+            println ("implode values : " . implode(", ", array_values($line)));
+            //foreach ($keys as $k) {
+               // println ("keys: " . $k);
+                //println(implode(", ", $k));
+                //fwrite($fp, implode(", ", $line[$k]));
+            //}
+
+            //$val = implode(",", $line);
+            //println($line);
+            //println($val);
         //    fputcsv($fp, $line);
-        //}
+        }
         fclose($fp);
         
 
